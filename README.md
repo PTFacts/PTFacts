@@ -9,8 +9,8 @@
 ### 📊 GitHub Stats
 
 <p align="center">
-  <img height="180em" src="https://ptfacts-git-stats.vercel.app/api?username=PTFacts&card=stats&theme=tokyonight" />
-  <img height="180em" src="https://ptfacts-git-stats.vercel.app/api?username=PTFacts&card=languages&theme=tokyonight" />
+  <img height="200em" src="https://ptfacts-git-stats.vercel.app/api?username=PTFacts&card=stats&theme=tokyonight" />
+  <img height="200em" src="https://ptfacts-git-stats.vercel.app/api?username=PTFacts&card=languages&theme=tokyonight" />
 </p>
 
 <p align="center">
@@ -19,23 +19,10 @@
 
 ---
 
-### 🏆 GitHub Trophies
+### 🏆 Achievements
 
 <p align="center">
   <img src="https://ptfacts-git-stats.vercel.app/api?username=PTFacts&card=trophy&theme=tokyonight" />
-</p>
-
----
-
-### 🛠 Tech Stack
-
-<p align="center">
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
-  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
 </p>
 
 ---
@@ -52,10 +39,4 @@
 
 <p align="center">
   <img src="https://komarev.com/ghpvc/?username=PTFacts&color=6A5ACD&style=flat-square&label=PROFILE+VIEWS" />
-</p>
-
----
-
-<p align="center">
-  <i>⭐️ Custom cards powered by <a href="https://ptfacts-git-stats.vercel.app">PTFacts Git Stats</a></i>
 </p>

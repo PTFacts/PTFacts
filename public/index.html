@@ -4,78 +4,92 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PTFacts Git Stats</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0d1117; color: #c9d1d9; min-height: 100vh; padding: 2rem 1rem; }
-    .container { max-width: 1000px; margin: 0 auto; }
-    .hero { text-align: center; padding: 2rem 0 3rem; }
-    .hero h1 { font-size: 3rem; font-weight: 800; background: linear-gradient(135deg, #7aa2f7, #9ece6a, #e0af68); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero p { color: #565f89; font-size: 1.1rem; margin-top: 0.5rem; }
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 1.5rem; justify-items: center; }
-    .card-wrapper { background: #161b22; border: 1px solid #30363d; border-radius: 14px; overflow: hidden; transition: border-color 0.3s, transform 0.3s; width: 100%; max-width: 500px; }
-    .card-wrapper:hover { border-color: #6e40c9; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(110,64,201,0.12); }
-    .card-wrapper img, .card-wrapper svg { display: block; width: 100%; height: auto; }
-    .card-label { padding: 0.6rem 1rem; background: #0d1117; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
-    .card-label i { color: #6e40c9; }
-    .theme-picker { display: flex; justify-content: center; gap: 0.5rem; margin: 2rem 0 1.5rem; flex-wrap: wrap; }
-    .theme-dot { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid #30363d; transition: transform 0.2s, border-color 0.2s; }
-    .theme-dot:hover { transform: scale(1.2); border-color: #6e40c9; }
-    .theme-dot.active { border-color: #6e40c9; box-shadow: 0 0 12px rgba(110,64,201,0.5); }
-    .usage { margin-top: 3rem; padding: 1.5rem; background: #161b22; border: 1px solid #30363d; border-radius: 14px; }
-    .usage h2 { font-size: 1.2rem; margin-bottom: 1rem; color: #6e40c9; }
-    .usage code { display: block; background: #0d1117; padding: 0.8rem 1rem; border-radius: 8px; font-size: 0.8rem; color: #9ece6a; margin: 0.5rem 0; word-break: break-all; }
-    .usage span { color: #565f89; font-size: 0.8rem; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0d1117; color: #c9d1d9; min-height: 100vh; padding: 2rem 1rem; }
+    .container { max-width: 1060px; margin: 0 auto; }
+    .hero { text-align: center; padding: 2rem 0 3rem; position: relative; }
+    .hero h1 { font-size: 2.8rem; font-weight: 800; background: linear-gradient(135deg, #7aa2f7, #9ece6a, #e0af68, #f7768e); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientShift 6s ease infinite; }
+    @keyframes gradientShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+    .hero p { color: #565f89; font-size: 1.05rem; margin-top: 0.4rem; }
+    .stats-row { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; flex-wrap: wrap; }
+    .mini-stat { text-align: center; }
+    .mini-stat .val { font-size: 1.6rem; font-weight: 800; color: #7aa2f7; }
+    .mini-stat .lbl { font-size: 0.7rem; color: #565f89; text-transform: uppercase; letter-spacing: 1px; }
+    .theme-picker { display: flex; justify-content: center; gap: 0.6rem; margin: 1.5rem 0 2rem; flex-wrap: wrap; }
+    .theme-dot { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid #30363d; transition: all 0.25s; position: relative; }
+    .theme-dot:hover { transform: scale(1.25); border-color: #7aa2f7; }
+    .theme-dot.active { border-color: #7aa2f7; box-shadow: 0 0 16px rgba(122,162,247,0.5); }
+    .theme-dot::after { content: attr(data-label); position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 8px; color: #565f89; white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
+    .theme-dot:hover::after { opacity: 1; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 1.5rem; justify-items: center; }
+    .card-wrapper { background: #161b22; border: 2px solid #30363d; border-radius: 16px; overflow: hidden; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); width: 100%; max-width: 520px; cursor: default; }
+    .card-wrapper:hover { border-color: #7aa2f7; transform: translateY(-4px); box-shadow: 0 12px 40px rgba(122,162,247,0.1); }
+    .card-wrapper img { display: block; width: 100%; height: auto; transition: opacity 0.3s; }
+    .card-tag { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: #0d1117; font-size: 0.7rem; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; border-top: 1px solid #21262d; }
+    .card-tag .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .card-tag .dot.s { background: #7aa2f7; }
+    .card-tag .dot.k { background: #e0af68; }
+    .card-tag .dot.l { background: #9ece6a; }
+    .card-tag .dot.t { background: #bb9af7; }
+    .usage { margin: 3rem auto 0; max-width: 700px; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 1.5rem; }
+    .usage h2 { font-size: 1rem; color: #7aa2f7; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.4rem; }
+    .usage code { display: block; background: #0d1117; padding: 0.7rem 1rem; border-radius: 8px; font-size: 0.75rem; color: #9ece6a; margin: 0.4rem 0; word-break: break-all; font-family: 'Cascadia Code', 'Fira Code', monospace; border: 1px solid #21262d; }
+    .usage .param { color: #e0af68; }
     footer { text-align: center; padding: 3rem 0 1rem; color: #484f58; font-size: 0.8rem; }
-    @media (max-width: 500px) { .cards-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 2rem; } }
+    @media (max-width: 520px) { .cards-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 1.8rem; } .card-wrapper { max-width: 100%; } }
   </style>
 </head>
 <body>
   <div class="container">
     <header class="hero">
       <h1>PTFacts Git Stats</h1>
-      <p>Custom GitHub stats cards &mdash; powered by Vercel</p>
+      <p>Custom 3D stats cards for your GitHub profile</p>
+      <div class="stats-row">
+        <div class="mini-stat"><div class="val" id="repos-count">--</div><div class="lbl">Repos</div></div>
+        <div class="mini-stat"><div class="val" id="followers-count">--</div><div class="lbl">Followers</div></div>
+        <div class="mini-stat"><div class="val" id="stars-count">--</div><div class="lbl">Stars</div></div>
+      </div>
     </header>
 
     <div class="theme-picker" id="themes">
-      <span class="theme-dot active" data-theme="tokyonight" style="background:#1a1b27" title="Tokyo Night"></span>
-      <span class="theme-dot" data-theme="dark" style="background:#0d1117" title="GitHub Dark"></span>
-      <span class="theme-dot" data-theme="ocean" style="background:#0f2027" title="Ocean"></span>
-      <span class="theme-dot" data-theme="sunset" style="background:#1a0a0a" title="Sunset"></span>
-      <span class="theme-dot" data-theme="forest" style="background:#0d1a0d" title="Forest"></span>
+      <span class="theme-dot active" data-theme="tokyonight" data-label="Tokyo" style="background:#1a1b27"></span>
+      <span class="theme-dot" data-theme="dark" data-label="Dark" style="background:#0d1117"></span>
+      <span class="theme-dot" data-theme="ocean" data-label="Ocean" style="background:#0f2027"></span>
+      <span class="theme-dot" data-theme="sunset" data-label="Sunset" style="background:#1a0a0a"></span>
+      <span class="theme-dot" data-theme="forest" data-label="Forest" style="background:#0d1a0d"></span>
     </div>
 
     <div class="cards-grid">
-      <div class="card-wrapper" id="stats-wrapper">
-        <img id="stats-img" src="/api?username=PTFacts&card=stats&theme=tokyonight" alt="GitHub Stats" loading="lazy">
-        <div class="card-label"><i class="fas fa-chart-bar"></i> Stats Card</div>
+      <div class="card-wrapper">
+        <img id="stats-img" src="/api?username=PTFacts&card=stats&theme=tokyonight" alt="Stats Card" loading="lazy">
+        <div class="card-tag"><span class="dot s"></span> Stats &amp; Activity Chart</div>
       </div>
-      <div class="card-wrapper" id="streak-wrapper">
-        <img id="streak-img" src="/api?username=PTFacts&card=streak&theme=tokyonight" alt="Contribution Streak" loading="lazy">
-        <div class="card-label"><i class="fas fa-fire"></i> Streak Card</div>
+      <div class="card-wrapper">
+        <img id="streak-img" src="/api?username=PTFacts&card=streak&theme=tokyonight" alt="Streak Card" loading="lazy">
+        <div class="card-tag"><span class="dot k"></span> Contribution Grid &amp; Trend</div>
       </div>
-      <div class="card-wrapper" id="languages-wrapper">
-        <img id="languages-img" src="/api?username=PTFacts&card=languages&theme=tokyonight" alt="Top Languages" loading="lazy">
-        <div class="card-label"><i class="fas fa-code"></i> Languages Card</div>
+      <div class="card-wrapper">
+        <img id="languages-img" src="/api?username=PTFacts&card=languages&theme=tokyonight" alt="Languages Card" loading="lazy">
+        <div class="card-tag"><span class="dot l"></span> Languages &amp; Donut Chart</div>
       </div>
-      <div class="card-wrapper" id="trophy-wrapper">
-        <img id="trophy-img" src="/api?username=PTFacts&card=trophy&theme=tokyonight" alt="Achievements" loading="lazy">
-        <div class="card-label"><i class="fas fa-trophy"></i> Trophy Card</div>
+      <div class="card-wrapper">
+        <img id="trophy-img" src="/api?username=PTFacts&card=trophy&theme=tokyonight" alt="Achievements Card" loading="lazy">
+        <div class="card-tag"><span class="dot t"></span> Achievements Grid</div>
       </div>
     </div>
 
     <section class="usage">
-      <h2><i class="fas fa-link"></i> Usage</h2>
-      <span>Embed any card in your README or website:</span>
-      <code>&lt;img src="https://ptfacts-git-stats.vercel.app/api?username=PTFacts&amp;card=stats&amp;theme=tokyonight" /&gt;</code>
-      <code>&lt;img src="https://ptfacts-git-stats.vercel.app/api?username=PTFacts&amp;card=streak&amp;theme=dark" /&gt;</code>
-      <code>&lt;img src="https://ptfacts-git-stats.vercel.app/api?username=PTFacts&amp;card=languages" /&gt;</code>
-      <code>&lt;img src="https://ptfacts-git-stats.vercel.app/api?username=PTFacts&amp;card=trophy" /&gt;</code>
+      <h2>Usage</h2>
+      <code>&lt;img src="<span class="param">https://ptfacts-git-stats.vercel.app/api</span>?username=PTFacts&amp;card=<span class="param">stats</span>&amp;theme=tokyonight" /&gt;</code>
+      <code>&lt;img src="<span class="param">https://ptfacts-git-stats.vercel.app/api</span>?username=PTFacts&amp;card=<span class="param">streak</span>&amp;theme=dark" /&gt;</code>
+      <code>&lt;img src="<span class="param">https://ptfacts-git-stats.vercel.app/api</span>?username=PTFacts&amp;card=<span class="param">languages</span>&amp;theme=ocean" /&gt;</code>
+      <code>&lt;img src="<span class="param">https://ptfacts-git-stats.vercel.app/api</span>?username=PTFacts&amp;card=<span class="param">trophy</span>&amp;theme=sunset" /&gt;</code>
       <br>
-      <span>Available themes: <strong>tokyonight</strong>, <strong>dark</strong>, <strong>ocean</strong>, <strong>sunset</strong>, <strong>forest</strong></span>
+      <span style="font-size:0.8rem;color:#565f89">Themes: <strong>tokyonight</strong> · <strong>dark</strong> · <strong>ocean</strong> · <strong>sunset</strong> · <strong>forest</strong></span>
     </section>
 
-    <footer>Made by <strong>PTFacts</strong> &mdash; Powered by Vercel</footer>
+    <footer>PTFacts Git Stats &mdash; Powered by Vercel</footer>
   </div>
 
   <script>
@@ -89,7 +103,7 @@
         currentTheme = dot.dataset.theme;
         cards.forEach(c => {
           const img = document.getElementById(c + '-img');
-          img.style.opacity = '0.5';
+          img.style.opacity = '0.4';
           img.src = `/api?username=PTFacts&card=${c}&theme=${currentTheme}&t=${Date.now()}`;
           img.onload = () => { img.style.opacity = '1'; };
         });
@@ -98,12 +112,22 @@
 
     document.querySelectorAll('.card-wrapper img').forEach(img => {
       img.style.transition = 'opacity 0.3s';
-      img.onerror = function() {
-        this.src = 'data:image/svg+xml,' + encodeURIComponent(
-          '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="160"><rect width="480" height="160" rx="12" fill="#1a1b27" stroke="#f7768e" stroke-width="2"/><text x="240" y="72" fill="#f7768e" font-size="14" text-anchor="middle" font-family="sans-serif" font-weight="600">Loading failed</text><text x="240" y="96" fill="#565f89" font-size="11" text-anchor="middle" font-family="sans-serif">Deploy to Vercel to see live cards</text></svg>'
-        );
-      };
     });
+
+    fetch('https://api.github.com/users/PTFacts')
+      .then(r => r.json())
+      .then(u => {
+        document.getElementById('repos-count').textContent = u.public_repos || '--';
+        document.getElementById('followers-count').textContent = u.followers || '--';
+        document.getElementById('stars-count').textContent = '--';
+        return fetch('https://api.github.com/users/PTFacts/repos?per_page=100');
+      })
+      .then(r => r.json())
+      .then(repos => {
+        const stars = repos.reduce((s, r) => s + r.stargazers_count, 0);
+        document.getElementById('stars-count').textContent = stars;
+      })
+      .catch(() => {});
   </script>
 </body>
 </html>
