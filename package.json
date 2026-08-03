@@ -1,0 +1,16 @@
+{
+  "name": "ptfacts-git-stats",
+  "version": "1.0.0",
+  "description": "Custom GitHub stats cards powered by Vercel",
+  "main": "api/index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["github", "stats", "card", "vercel", "svg"],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^34.0.0"
+  }
+}
